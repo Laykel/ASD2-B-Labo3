@@ -1,0 +1,64 @@
+27
+Augst
+Baden
+Basel
+Berne
+Bienne
+Brienz
+Burgdorf
+Chietres
+Delemont
+Emmen
+Fribourg
+Geneve
+La Chaux-De-Fonds
+Langenthal
+Lausanne
+Martigny
+Monthey
+Montreux
+Morges
+Neuchatel
+Nyon
+Olten
+Sion
+Soleure
+Thun
+Vevey
+Yverdon-Les-Bains
+Geneve	Nyon	23	01	01
+Nyon	Morges	25	01	01
+Morges	Lausanne	07	01	01
+Lausanne	Vevey	25	01	01
+Vevey	Montreux	07	01	01
+Montreux	Monthey	20	01	01
+Monthey	Martigny	20	01	01
+Martigny	Sion	27	01	01
+Lausanne	Yverdon-Les-Bains	25	01	01
+Lausanne	Chietres	70	03	07
+Yverdon-Les-Bains	Neuchatel	36	01	02
+Vevey	Fribourg	55	01	01
+Fribourg	Berne	32	01	01
+Berne	Chietres	23	01	01
+Chietres	Neuchatel	24	01	03
+Neuchatel	La Chaux-De-Fonds	22	01	01
+Neuchatel	Bienne	34	01	02
+La Chaux-De-Fonds	Bienne	45	00	01
+Berne	Bienne	36	03	04
+Berne	Thun	26	01	01
+Thun	Brienz	48	03	04
+Brienz	Emmen	60	03	05
+Emmen	Berne	90	00	01
+Berne	Burgdorf	15	01	01
+Burgdorf	Langenthal	25	00	01
+Langenthal	Olten	17	00	01
+Olten	Emmen	55	01	01
+Olten	Baden	45	01	01
+Baden	Augst	60	01	01
+Augst	Olten	40	01	01
+Augst	Basel	10	01	01
+Basel	Delemont	40	01	05
+Delemont	Bienne	50	00	01
+Bienne	Soleure	25	00	01
+Soleure	Burgdorf	20	01	01
+Soleure	Olten	40	01	01
