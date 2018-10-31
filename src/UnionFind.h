@@ -1,4 +1,4 @@
-/* 
+/*
  * File:   UnionFind.h
  * Author: Olivier Cuisenaire
  *
@@ -17,25 +17,25 @@
 class UnionFind
 {
 private:
-	// id[i] stocke l'id du parent de i dans l'arbre des classes d'équivalence
-	std::vector<int> id;
-	
-	// sz[i] stocke la taille de l'arbre dont i est la racine.
-	std::vector<int> sz;
-	
+   // id[i] stocke l'id du parent de i dans l'arbre des classes d'équivalence
+   std::vector<int> id;
+
+   // sz[i] stocke la taille de l'arbre dont i est la racine.
+   std::vector<int> sz;
+
 public:
-	
-	// Constructeur: spécifie le nombre N d'éléments
-	UnionFind(int N);
-	
-	// Find renvoie l'id représentatif de la classe d'équivalence de p.
-	int Find(int p) ;
-	
-	// Connected indique que p et q appartiennent à la même classe d'équivalence
-	bool Connected(int p, int q);
-	
-	// Union fusionne les classes d'équivalence de p et q
-	void Union(int p, int q);
+
+   // Constructeur: spécifie le nombre N d'éléments
+   UnionFind(int N);
+
+   // Find renvoie l'id représentatif de la classe d'équivalence de p.
+   int Find(int p) ;
+
+   // Connected indique que p et q appartiennent à la même classe d'équivalence
+   bool Connected(int p, int q);
+
+   // Union fusionne les classes d'équivalence de p et q
+   void Union(int p, int q);
 };
 
 #endif
