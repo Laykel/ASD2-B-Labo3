@@ -4,7 +4,6 @@
  * Author: Olivier Cuisenaire
  *
  * Created on 18. novembre 2014, 14:58
- *  test Loris
  */
 
 #include <cstdlib>
