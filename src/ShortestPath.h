@@ -28,50 +28,80 @@ template<typename GraphType>  // Type du graphe pondere oriente a traiter
                               // EdgeWeightedDiGraph et definir le
                               // type GraphType::Edge
 class ShortestPath {
-   public:
-      // Type des arcs. Normalement ASD2::DirectedEdge<double>
-      typedef typename GraphType::Edge Edge;
+public:
+   // Type des arcs. Normalement ASD2::DirectedEdge<double>
+   typedef typename GraphType::Edge Edge;
 
-      // Type des poids. Normalement double ou int.
-      typedef typename Edge::WeightType Weight;
+   // Type des poids. Normalement double ou int.
+   typedef typename Edge::WeightType Weight;
 
-      // Listes d'arcs et de poids
-      typedef std::vector<Edge> Edges;
-      typedef std::vector<Weight> Weights;
+   // Listes d'arcs et de poids
+   typedef std::vector<Edge> Edges;
+   typedef std::vector<Weight> Weights;
 
-      // Renvoie la distance du chemin le plus court du sommet source a v
-      Weight DistanceTo(int v) {
-         return distanceTo.at(v);
-      }
+   // Renvoie la distance du chemin le plus court du sommet source a v
+   Weight DistanceTo(int v) {
+      return distanceTo.at(v);
+   }
 
-      // Renvoie le dernier arc u->v du chemin le plus court du sommet source a v
-      Edge EdgeTo(int v) {
-         return edgeTo.at(v);
-      }
+   // Renvoie le dernier arc u->v du chemin le plus court du sommet source a v
+   Edge EdgeTo(int v) {
+      return edgeTo.at(v);
+   }
 
-      // Renvoie la liste ordonnee des arcs constituant un chemin le plus court du
-      // sommet source à v.
-      Edges PathTo(int v) {
-         /* A IMPLEMENTER */
-      }
+   // Renvoie la liste ordonnee des arcs constituant un chemin le plus court du
+   // sommet source à v.
+   Edges PathTo(int v) {
+      /* A IMPLEMENTER */
+   }
 
-   protected:
-      Edges edgeTo;
-      Weights distanceTo;
+protected:
+   Edges edgeTo;
+   Weights distanceTo;
 };
 
 // Classe a mettre en oeuvre au labo 3. S'inspirer de BellmaFordSP pour l'API
 
 template<typename GraphType>
 class DijkstraSP : public ShortestPath<GraphType> {
-   public:
-      typedef ShortestPath<GraphType> BASE;
-      typedef typename BASE::Edge Edge;
-      typedef typename BASE::Weight Weight;
+public:
+   typedef ShortestPath<GraphType> BASE;
+   typedef typename BASE::Edge Edge;
+   typedef typename BASE::Weight Weight;
 
-      DijkstraSP(const GraphType& g, int v)  {
-         /* A IMPLEMENTER */
+   DijkstraSP(const GraphType& g, int v)  {
+      /* A IMPLEMENTER */
+      std::priority_queue<std::pair<int, Weight>> pq; // Contient les sommets avec leurs poids
+
+      // Initialisation de edgeTo et distanceTo
+      this->edgeTo.resize(g.V());
+      this->distanceTo.assign(g.V(), std::numeric_limits<Weight>::max());
+
+      // Initialisation de edgteTo et distanceTo pour le sommet source v
+      // Et ajout à la queue de priorité
+      pq.push(std::make_pair(v, 0));
+      this->edgeTo[v] = Edge(v,v,0);
+      this->distanceTo[v] = 0;
+
+      // Itérations jusqu'a ce que la pile soit vide
+      while (!pq.empty()) {
+         // On retire le sommet avec le plus petit poid
+         // TODO : Problème ligne suivante, on ne retire par le bon sommet (debugger pour voir)
+         int u = pq.top().first;
+         pq.pop();
+
+         g.forEachAdjacentEdge(u, [this, &pq](const Edge& e) {
+            int v = e.From(), w = e.To();
+            Weight distThruE = this->distanceTo[v] + e.Weight();
+
+            if(this->distanceTo[w] > distThruE) {
+               this->distanceTo[w] = distThruE;
+               this->edgeTo[w] = e;
+               pq.push(std::make_pair(w, distThruE));
+            }
+         });
       }
+   }
 };
 
 // Algorithme de BellmanFord.
@@ -85,39 +115,39 @@ template<typename GraphType> // Type du graphe pondere oriente a traiter
 
 class BellmanFordSP : public ShortestPath<GraphType> {
 
-   private:
-      typedef ShortestPath<GraphType> BASE;
-      typedef typename BASE::Edge Edge;
-      typedef typename BASE::Weight Weight;
+private:
+   typedef ShortestPath<GraphType> BASE;
+   typedef typename BASE::Edge Edge;
+   typedef typename BASE::Weight Weight;
 
-      // Relachement de l'arc e
-      void relax(const Edge& e) {
-         int v = e.From(), w = e.To();
-         Weight distThruE = this->distanceTo[v]+e.Weight();
+   // Relachement de l'arc e
+   void relax(const Edge& e) {
+      int v = e.From(), w = e.To();
+      Weight distThruE = this->distanceTo[v]+e.Weight();
 
-         if(this->distanceTo[w] > distThruE) {
-            this->distanceTo[w] = distThruE;
-            this->edgeTo[w] = e;
-         }
+      if(this->distanceTo[w] > distThruE) {
+         this->distanceTo[w] = distThruE;
+         this->edgeTo[w] = e;
       }
+   }
 
-   public:
+public:
 
-      // Constructeur a partir du graphe g et du sommet v a la source
-      // des plus courts chemins
-      BellmanFordSP(const GraphType& g, int v) {
+   // Constructeur a partir du graphe g et du sommet v a la source
+   // des plus courts chemins
+   BellmanFordSP(const GraphType& g, int v) {
 
-         this->edgeTo.resize(g.V());
-         this->distanceTo.assign(g.V(),std::numeric_limits<Weight>::max());
+      this->edgeTo.resize(g.V());
+      this->distanceTo.assign(g.V(),std::numeric_limits<Weight>::max());
 
-         this->edgeTo[v] = Edge(v,v,0);
-         this->distanceTo[v] = 0;
+      this->edgeTo[v] = Edge(v,v,0);
+      this->distanceTo[v] = 0;
 
-         for(int i=0;i<g.V();++i)
-            g.forEachEdge([this](const Edge& e){
-                  this->relax(e);
-                  });
-      }
+      for(int i=0;i<g.V();++i)
+         g.forEachEdge([this](const Edge& e){
+            this->relax(e);
+         });
+   }
 };
 
 
