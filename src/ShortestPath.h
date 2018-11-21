@@ -91,7 +91,7 @@ public:
       // Itérations jusqu'a ce que la pile soit vide
       while (!pq.empty()) {
          // On sélectionne le sommet u avec la plus petite distanceTo[]
-         int u = (*(pq.begin())).second;
+         int u = pq.begin()->second;
 
          // On retire le sommet u de la pq
          pq.erase(pq.begin());
