@@ -23,7 +23,12 @@ using namespace std;
 // en passant par le reseau routier rn. Le critere a optimiser est la distance.
 
 void PlusCourtChemin(const string& depart, const string& arrivee, RoadNetwork& rn) {
-   /* A IMPLEMENTER */
+   /*RoadDiGraphWrapper rdgw(rn);
+   int idxDepart = rn.cityIdx.find(depart);
+   int idxArrivee = rn.cityIdx.find(arrivee);
+   DijkstraSP<RoadDiGraphWrapper> sp(rdgw, idxDepart);
+   
+   sp.PathTo(idxArrivee);*/
 }
 
 // Calcule et affiche le plus rapide chemin de la ville depart a la ville arrivee via la ville "via"
