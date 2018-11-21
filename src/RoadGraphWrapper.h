@@ -6,21 +6,36 @@
 #define ROADGRAPHWRAPPER
 
 #include "RoadNetwork.h"
+#include "EdgeWeightedGraph.h"
 
 class RoadGraphWrapper {
-   struct Edge {
+public:
+   // ...
+   using Edge = WeightedEdge<double>;
 
-   };
+   RoadGraphWrapper(RoadNetwork rn) : rn(&rn) {}
 
-   RoadGraphWrapper(RoadNetwork rn);
+   /* WeightedEdge<double> roadToEdge(RoadNetwork::Road r) { */
 
-   int V() const;
+   /* } */
+
+   // Returns graph size
+   int V() const {
+      return (int) rn->cities.size();
+   }
 
    template <typename Func>
-   void forEachEdge(Func f) const;
+   void forEachEdge(Func f) const {
+      /* for (const WeightedEdge<double> e : rn->) { */
+      /*    f(e); */
+      /* } */
+   }
 
    template <typename Func>
    void forEachAdjacentEdge(int v, Func f) const;
+
+private:
+   RoadNetwork* rn;
 };
 
 #endif

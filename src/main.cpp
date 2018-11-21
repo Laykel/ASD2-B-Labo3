@@ -17,18 +17,21 @@
 #include "EdgeWeightedGraph.h"
 #include "EdgeWeightedDiGraph.h"
 
+#include "RoadDiGraphWrapper.h"
+#include "RoadGraphWrapper.h"
+
 using namespace std;
 
 // Calcule et affiche le plus court chemin de la ville depart a la ville arrivee
 // en passant par le reseau routier rn. Le critere a optimiser est la distance.
 
 void PlusCourtChemin(const string& depart, const string& arrivee, RoadNetwork& rn) {
-   RoadDiGraphWrapper rdgw(rn);
-   int idxDepart = rn.cityIdx.find(depart);
-   int idxArrivee = rn.cityIdx.find(arrivee);
-   DijkstraSP<RoadDiGraphWrapper> sp(rdgw, idxDepart);
-   
-   sp.PathTo(idxArrivee);
+   /* RoadDiGraphWrapper rdgw(rn); */
+   /* int idxDepart = rn.cityIdx.find(depart); */
+   /* int idxArrivee = rn.cityIdx.find(arrivee); */
+   /* DijkstraSP<RoadDiGraphWrapper> sp(rdgw, idxDepart); */
+
+   /* sp.PathTo(idxArrivee); */
 }
 
 // Calcule et affiche le plus rapide chemin de la ville depart a la ville arrivee via la ville "via"
@@ -89,7 +92,11 @@ int main(int argc, const char * argv[]) {
    testShortestPath("1000EWD.txt");
    testShortestPath("10000EWD.txt");
 
+   // ---- Test wrappers
    RoadNetwork rn("reseau.txt");
+   RoadGraphWrapper rdgw(rn);
+   cout << endl << "(rdgw) Taille du graphe : " << rdgw.V() << endl << endl;
+   // ----
 
    cout << "1. Chemin le plus court entre Geneve et Emmen" << endl;
 
@@ -99,11 +106,11 @@ int main(int argc, const char * argv[]) {
 
    PlusCourtChemin("Lausanne", "Basel", rn);
 
-   cout << "3. chemin le plus rapide entre Geneve et Emmen en passant par Yverdon" << endl;
+   cout << "3. Chemin le plus rapide entre Geneve et Emmen en passant par Yverdon" << endl;
 
    PlusRapideChemin("Geneve", "Emmen", "Yverdon-Les-Bains", rn);
 
-   cout << "4. chemin le plus rapide entre Geneve et Emmen en passant par Vevey" << endl;
+   cout << "4. Chemin le plus rapide entre Geneve et Emmen en passant par Vevey" << endl;
 
    PlusRapideChemin("Geneve", "Emmen", "Vevey", rn);
 
