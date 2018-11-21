@@ -90,17 +90,24 @@ public:
 
       // Itérations jusqu'a ce que la pile soit vide
       while (!pq.empty()) {
-         // On retire le sommet avec le plus petit poid
+         // On sélectionne le sommet u avec le plus petit distanceTo[]
          int u = (*(pq.begin())).second;
+
+         // On retire le sommet u de la pq
          pq.erase(pq.begin());
 
+         // Parcours des sommets adjacents de u
          g.forEachAdjacentEdge(u, [this, &pq](const Edge& e) {
             int v = e.From(), w = e.To();
             Weight distThruE = this->distanceTo[v] + e.Weight();
 
-            if(this->distanceTo[w] > distThruE) {
+            // Vérification si la distance peut être améliorée
+            if (this->distanceTo[w] > distThruE) {
+               // "Decrease priority" dans la pq
                pq.erase(std::make_pair(this->distanceTo[w], w));
                pq.insert(std::make_pair(distThruE, w));
+
+               // Mise à jour de la distance ainsi que edgeTo pour le sommet w
                this->distanceTo[w] = distThruE;
                this->edgeTo[w] = e;
             }
