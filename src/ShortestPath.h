@@ -71,33 +71,38 @@ public:
 
    DijkstraSP(const GraphType& g, int v)  {
       /* A IMPLEMENTER */
-      std::priority_queue<std::pair<int, Weight>> pq; // Contient les sommets avec leurs poids
+      // Contient une paire de la forme : (DistanceTo[sommet], sommet)
+      // Le set va trier dans l'ordre des DistanceTo[sommet]
+      std::set<std::pair<Weight, int>> pq;
 
       // Initialisation de edgeTo et distanceTo
       this->edgeTo.resize(g.V());
       this->distanceTo.assign(g.V(), std::numeric_limits<Weight>::max());
 
       // Initialisation de edgteTo et distanceTo pour le sommet source v
-      // Et ajout à la queue de priorité
-      pq.push(std::make_pair(v, 0));
       this->edgeTo[v] = Edge(v,v,0);
       this->distanceTo[v] = 0;
+
+      // Ajout de tous les sommets dans la pq
+      g.forEachVertex([this, &pq](int u) {
+         pq.insert(std::make_pair(this->distanceTo[u], u));
+      });
 
       // Itérations jusqu'a ce que la pile soit vide
       while (!pq.empty()) {
          // On retire le sommet avec le plus petit poid
-         // TODO : Problème ligne suivante, on ne retire par le bon sommet (debugger pour voir)
-         int u = pq.top().first;
-         pq.pop();
+         int u = (*(pq.begin())).second;
+         pq.erase(pq.begin());
 
          g.forEachAdjacentEdge(u, [this, &pq](const Edge& e) {
             int v = e.From(), w = e.To();
             Weight distThruE = this->distanceTo[v] + e.Weight();
 
             if(this->distanceTo[w] > distThruE) {
+               pq.erase(std::make_pair(this->distanceTo[w], w));
+               pq.insert(std::make_pair(distThruE, w));
                this->distanceTo[w] = distThruE;
                this->edgeTo[w] = e;
-               pq.push(std::make_pair(w, distThruE));
             }
          });
       }
