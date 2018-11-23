@@ -20,7 +20,7 @@ struct WeightedEdge : public EdgeCommon<T> {
    // defini la class mere comme BASE.
    typedef EdgeCommon<T> BASE;
 
-   public:
+public:
    // Constructeur par defaut. Appelle BASE() par defaut
    WeightedEdge() { }
 

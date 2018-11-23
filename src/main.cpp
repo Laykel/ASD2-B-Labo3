@@ -17,8 +17,8 @@
 #include "EdgeWeightedGraph.h"
 #include "EdgeWeightedDiGraph.h"
 
-#include "RoadDiGraphWrapper.h"
 #include "RoadGraphWrapper.h"
+#include "RoadDiGraphWrapper.h"
 
 using namespace std;
 
@@ -94,9 +94,22 @@ int main(int argc, const char * argv[]) {
 
    // ---- Test wrappers
    RoadNetwork rn("reseau.txt");
-   RoadGraphWrapper rdgw(rn);
-   cout << endl << "(rdgw) Taille du graphe : " << rdgw.V() << endl << endl;
-   // ----
+   RoadGraphWrapper<> rdgw(rn);
+   cout << "(rdgw) Taille du graphe : " << rdgw.V() << endl;
+   rdgw.forEachEdge([](const RoadGraphWrapper<>::Edge& e) {
+      cout << e.Either() << "," << e.Other(e.Either()) << ": " << e.Weight() << endl;
+   });
+   cout << endl;
+
+   rdgw.forEachAdjacentEdge(21, [](const RoadNetwork::Road& r){cout << r.cities.first << endl;});
+
+   /* RoadGraphWrapper<> rdgw2(rn, [](const RoadNetwork::Road& r) { return r.cities.first; }); */
+   /* cout << "(rdgw) Taille du graphe : " << rdgw2.V() << endl; */
+   /* rdgw2.forEachEdge([](const RoadGraphWrapper<>::Edge& e) { */
+   /*    cout << e.Either() << "," << e.Other(e.Either()) << ": " << e.Weight() << endl; */
+   /* }); */
+   /* cout << endl; */
+   // -------------------------------------------------------------------------------
 
    cout << "1. Chemin le plus court entre Geneve et Emmen" << endl;
 
