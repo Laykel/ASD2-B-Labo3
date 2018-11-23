@@ -53,6 +53,18 @@ public:
    // sommet source à v.
    Edges PathTo(int v) {
       /* A IMPLEMENTER */
+      Edges pathTo;  // Liste ordonnée des arcs constituant le chemin le plus court
+
+      // On parcourt tant que le From() et le To() de l'arc edgeTo[v] sont différent
+      // car le From() et le To() de l'arc edgetTo[sommetSource] sont égaux.
+      while (this->edgeTo[v].From() != this->edgeTo[v].To()) {
+         pathTo.push_back(this->edgeTo[v]); // Ajout de l'arc dans le chmin
+         v = this->edgeTo[v].From();   // V est le sommet From() --> On remonte dans le chemin
+      }
+
+      // Le vecteur doit être inversé pour que la liste soit ordonnée
+      std::reverse(pathTo.begin(), pathTo.end());
+      return pathTo;
    }
 
 protected:
