@@ -48,6 +48,15 @@ public:
       }
    }
 
+   // Parcours de toutes les villes du réseau routier
+   // La fonction f doit prendre un seul argument de type int
+   template <typename Func>
+   void forEachVertex(Func f) const {
+      for (int v : V()) {
+         f(v);
+      }
+   }
+
 private:
    RoadNetwork rn;
    std::function<edgeWeightType(const RoadNetwork::Road&)> weightFunction = [](const RoadNetwork::Road& r) { return r.length; };
