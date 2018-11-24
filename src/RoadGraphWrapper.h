@@ -23,7 +23,7 @@ public:
    RoadGraphWrapper(const RoadNetwork& rn, std::function<edgeWeightType (const RoadNetwork::Road&)> weightFunction)
    : rn(rn), weightFunction(weightFunction) {}
 
-   // Permet de manipuler une route comme un arc
+   // Permet de manipuler une route comme une arête
    Edge roadToEdge(const RoadNetwork::Road& r) const {
       return Edge(r.cities.first, r.cities.second, weightFunction(r));
    }
