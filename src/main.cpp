@@ -26,12 +26,16 @@ using namespace std;
 // en passant par le reseau routier rn. Le critere a optimiser est la distance.
 
 void PlusCourtChemin(const string& depart, const string& arrivee, RoadNetwork& rn) {
-   /* RoadDiGraphWrapper rdgw(rn); */
-   /* int idxDepart = rn.cityIdx.find(depart); */
-   /* int idxArrivee = rn.cityIdx.find(arrivee); */
-   /* DijkstraSP<RoadDiGraphWrapper> sp(rdgw, idxDepart); */
+   RoadDiGraphWrapper<> rdgw(rn);
+   int idxDepart = rn.cityIdx[depart];
+   int idxArrivee = rn.cityIdx[arrivee];
+   DijkstraSP<RoadDiGraphWrapper<>> sp(rdgw, idxDepart);
 
-   /* sp.PathTo(idxArrivee); */
+   vector<RoadDiGraphWrapper<>::Edge> v = sp.PathTo(idxArrivee);
+   for (auto e : v) {
+      cout << rn.cities.at(e.From()).name << " -> ";
+   }
+   cout << rn.cities.at(idxArrivee).name << endl;
 }
 
 // Calcule et affiche le plus rapide chemin de la ville depart a la ville arrivee via la ville "via"
@@ -86,30 +90,12 @@ void testShortestPath(string filename)
 }
 
 int main(int argc, const char * argv[]) {
+   /* testShortestPath("tinyEWD.txt"); */
+   /* testShortestPath("mediumEWD.txt"); */
+   /* testShortestPath("1000EWD.txt"); */
+   /* testShortestPath("10000EWD.txt"); */
 
-   testShortestPath("tinyEWD.txt");
-   testShortestPath("mediumEWD.txt");
-   testShortestPath("1000EWD.txt");
-   testShortestPath("10000EWD.txt");
-
-   // ---- Test wrappers
-   RoadNetwork rn("reseau.txt");
-   RoadGraphWrapper<> rdgw(rn);
-   cout << "(rdgw) Taille du graphe : " << rdgw.V() << endl;
-   rdgw.forEachEdge([](const RoadGraphWrapper<>::Edge& e) {
-      cout << e.Either() << "," << e.Other(e.Either()) << ": " << e.Weight() << endl;
-   });
-   cout << endl;
-
-   rdgw.forEachAdjacentEdge(21, [](const RoadNetwork::Road& r){cout << r.cities.first << endl;});
-
-   /* RoadGraphWrapper<> rdgw2(rn, [](const RoadNetwork::Road& r) { return r.cities.first; }); */
-   /* cout << "(rdgw) Taille du graphe : " << rdgw2.V() << endl; */
-   /* rdgw2.forEachEdge([](const RoadGraphWrapper<>::Edge& e) { */
-   /*    cout << e.Either() << "," << e.Other(e.Either()) << ": " << e.Weight() << endl; */
-   /* }); */
-   /* cout << endl; */
-   // -------------------------------------------------------------------------------
+   RoadNetwork rn("reseau.txt"); // Création du réseau de routes depuis fichier
 
    cout << "1. Chemin le plus court entre Geneve et Emmen" << endl;
 

@@ -61,7 +61,7 @@ public:
    // la fonction f doit prendre un seul argument de type
    // EdgeWeightedDiGraph::Edge
    template <typename Func>
-   void forEachAdjacentEdge(int v, Func f) {
+   void forEachAdjacentEdge(int v, Func f) const {
       std::vector<int> vroads = rn.cities.at(v).roads;
       for(int i : vroads) {
          f(roadToEdge(v, rn.roads.at(i)));
@@ -72,8 +72,8 @@ public:
    // La fonction f doit prendre un seul argument de type int
    template <typename Func>
    void forEachVertex(Func f) const {
-      for (int v : V()) {
-         f(v);
+      for (int i = 0; i < V(); i++) {
+         f(i);
       }
    }
 

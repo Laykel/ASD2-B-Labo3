@@ -16,7 +16,7 @@ public:
    // Définition de Edge
    using Edge = WeightedEdge<edgeWeightType>;
 
-   // Constructeur avec la fonction de coût simple
+   // Constructeur avec la fonction de coût par défaut (length)
    RoadGraphWrapper(const RoadNetwork& rn) : rn(rn) {}
 
    // Constructeur avec fonction de coût par paramètre
@@ -33,6 +33,8 @@ public:
       return (int) rn.cities.size();
    }
 
+   // Parcours de toutes les routes du réseau routier
+   // La fonction f doit prendre un paramètre de type RoadGraphWrapper<>::Edge
    template <typename Func>
    void forEachEdge(Func f) const {
       for (const RoadNetwork::Road& r : rn.roads) {
@@ -40,11 +42,13 @@ public:
       }
    }
 
+   // Parcours de toutes les routes partant de la ville d'indice v
+   // La fonction f doit prendre un paramètre de type RoadGraphWrapper<>::Edge
    template <typename Func>
    void forEachAdjacentEdge(int v, Func f) const {
       std::vector<int> vroads = rn.cities.at(v).roads;
       for (int i : vroads) {
-         f(rn.roads.at(i));
+         f(roadToEdge(rn.roads.at(i)));
       }
    }
 
@@ -52,13 +56,13 @@ public:
    // La fonction f doit prendre un seul argument de type int
    template <typename Func>
    void forEachVertex(Func f) const {
-      for (int v : V()) {
-         f(v);
+      for (int i = 0; i < V(); i++) {
+         f(i);
       }
    }
 
 private:
-   RoadNetwork rn;
+   const RoadNetwork& rn;
    std::function<edgeWeightType(const RoadNetwork::Road&)> weightFunction = [](const RoadNetwork::Road& r) { return r.length; };
 };
 
