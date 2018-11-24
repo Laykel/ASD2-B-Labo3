@@ -24,24 +24,26 @@ using namespace std;
 
 // Calcule et affiche le plus court chemin de la ville depart a la ville arrivee
 // en passant par le reseau routier rn. Le critere a optimiser est la distance.
-
 void PlusCourtChemin(const string& depart, const string& arrivee, RoadNetwork& rn) {
+   // Envelopper le réseau de routes dans un graphe orienté
    RoadDiGraphWrapper<> rdgw(rn);
-   int idxDepart = rn.cityIdx[depart];
-   int idxArrivee = rn.cityIdx[arrivee];
+   int idxDepart = rn.cityIdx[depart]; // Calculer l'index de la ville de départ
+   int idxArrivee = rn.cityIdx[arrivee]; // Calculer l'index de la ville d'arrivée
+
+   // Construire les plus courts chemins depuis idxDepart
    DijkstraSP<RoadDiGraphWrapper<>> sp(rdgw, idxDepart);
 
-   vector<RoadDiGraphWrapper<>::Edge> v = sp.PathTo(idxArrivee);
-   for (auto e : v) {
-      cout << rn.cities.at(e.From()).name << " -> ";
+   // Afficher chaque ville dans le PCC
+   for (RoadDiGraphWrapper<>::Edge edge : sp.PathTo(idxArrivee)) {
+      cout << rn.cities.at(edge.From()).name << " -> ";
    }
+   // Afficher la ville d'arrivée
    cout << rn.cities.at(idxArrivee).name << endl;
 }
 
 // Calcule et affiche le plus rapide chemin de la ville depart a la ville arrivee via la ville "via"
 // en passant par le reseau routier rn. Le critere a optimiser est le temps de parcours
 // sachant que l'on roule a 120km/h sur autoroute et 70km/h sur route normale.
-
 void PlusRapideChemin(const string& depart, const string& arrivee, const string& via, RoadNetwork& rn) {
    /* A IMPLEMENTER */
 }
@@ -49,7 +51,6 @@ void PlusRapideChemin(const string& depart, const string& arrivee, const string&
 // Calcule et affiche le plus reseau a renover couvrant toutes les villes le moins
 // cher, en sachant que renover 1km d'autoroute coute 15 MF, et renover 1km de route normale
 // coute 7 MF.
-
 void ReseauLeMoinsCher(RoadNetwork &rn) {
    /* A IMPLEMENTER */
 }
@@ -57,9 +58,7 @@ void ReseauLeMoinsCher(RoadNetwork &rn) {
 // compare les algorithmes Dijkstra et BellmanFord pour calculer les plus courts chemins au
 // sommet 0 dans le graphe defini par filename.
 // a utiliser pour tester votre implementation de Dijkstra
-
-void testShortestPath(string filename)
-{
+void testShortestPath(string filename) {
    cout << "Testing " << filename << endl;
 
    bool ok = true;

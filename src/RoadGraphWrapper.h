@@ -62,8 +62,10 @@ public:
    }
 
 private:
-   const RoadNetwork& rn;
-   std::function<edgeWeightType(const RoadNetwork::Road&)> weightFunction = [](const RoadNetwork::Road& r) { return r.length; };
+   const RoadNetwork& rn; // Référence au réseau routier
+   // Fonction de coût
+   std::function<edgeWeightType(const RoadNetwork::Road&)> weightFunction =
+      [](const RoadNetwork::Road& r) { return r.length; };
 };
 
 #endif
