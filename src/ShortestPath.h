@@ -55,7 +55,6 @@ public:
    // Renvoie la liste ordonnee des arcs constituant un chemin le plus court du
    // sommet source à v.
    Edges PathTo(int v) {
-      /* A IMPLEMENTER */
       Edges pathTo;  // Liste ordonnée des arcs constituant le chemin le plus court
 
       // On parcourt tant que le From() et le To() de l'arc edgeTo[v] sont différent
@@ -85,7 +84,6 @@ public:
    typedef typename BASE::Weight Weight;
 
    DijkstraSP(const GraphType& g, int v)  {
-      /* A IMPLEMENTER */
       // Contient une paire de la forme : (DistanceTo[sommet], sommet)
       // Le set va trier dans l'ordre des DistanceTo[sommet]
       std::set<std::pair<Weight, int>> pq;
