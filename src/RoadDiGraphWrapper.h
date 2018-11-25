@@ -20,7 +20,7 @@ public:
    RoadDiGraphWrapper(const RoadNetwork& rn) : rn(rn) {}
 
    // Constructeur avec fonction de coût par paramètre
-   RoadDiGraphWrapper(const RoadDiGraphWrapper& rn, std::function<edgeWeightType (const RoadNetwork::Road&)> weightFunction)
+   RoadDiGraphWrapper(const RoadNetwork& rn, std::function<edgeWeightType (const RoadNetwork::Road&)> weightFunction)
    : rn(rn), weightFunction(weightFunction) {}
 
    // Permet de manipuler une route comme un arc sortant de la ville vDepart et non comme
@@ -80,7 +80,7 @@ public:
 private:
    const RoadNetwork& rn; // Référence au réseau routier
    // Fonction de coût
-   std::function<edgeWeightType(const RoadNetwork::Road&)> weightFunction =
+   const std::function<edgeWeightType(const RoadNetwork::Road&)> weightFunction =
       [](const RoadNetwork::Road& r) { return r.length; };
 };
 

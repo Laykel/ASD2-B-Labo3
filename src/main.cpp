@@ -45,7 +45,33 @@ void PlusCourtChemin(const string& depart, const string& arrivee, RoadNetwork& r
 // en passant par le reseau routier rn. Le critere a optimiser est le temps de parcours
 // sachant que l'on roule a 120km/h sur autoroute et 70km/h sur route normale.
 void PlusRapideChemin(const string& depart, const string& arrivee, const string& via, RoadNetwork& rn) {
-   /* A IMPLEMENTER */
+   // Envelopper le réseau de routes dans un graphe orienté
+   // Spécifier la fonction de coût pour trouver le chemin le plus rapide
+   // et non seulement le plus court
+   RoadDiGraphWrapper<double> rdgw(rn, [](const RoadNetwork::Road& r) {
+      return r.length * r.motorway.Value() * 120 + r.length * (1 - r.motorway.Value()) * 70;
+   });
+   int idxDepart  = rn.cityIdx[depart];  // Calculer l'index de la ville de départ
+   int idxVia     = rn.cityIdx[via];     // Calculer l'index de la ville de départ
+   int idxArrivee = rn.cityIdx[arrivee]; // Calculer l'index de la ville d'arrivée
+
+   // Construire les plus courts chemins depuis idxDepart
+   DijkstraSP<RoadDiGraphWrapper<double>> spFromStart(rdgw, idxDepart);
+
+   // Afficher chaque ville dans le PCC, jusqu'à via
+   for (RoadDiGraphWrapper<double>::Edge edge : spFromStart.PathTo(idxVia)) {
+      cout << rn.cities.at(edge.From()).name << " -> ";
+   }
+
+   // Construire les plus courts chemins depuis idxVia
+   DijkstraSP<RoadDiGraphWrapper<double>> spFromVia(rdgw, idxVia);
+
+   // Afficher chaque ville dans le PCC, jusqu'à via
+   for (RoadDiGraphWrapper<double>::Edge edge : spFromVia.PathTo(idxArrivee)) {
+      cout << rn.cities.at(edge.From()).name << " -> ";
+   }
+   // Afficher la ville d'arrivée
+   cout << rn.cities.at(idxArrivee).name << endl;
 }
 
 // Calcule et affiche le plus reseau a renover couvrant toutes les villes le moins
