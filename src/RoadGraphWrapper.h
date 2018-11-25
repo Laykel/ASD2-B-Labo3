@@ -1,5 +1,13 @@
 /*
+ * File:   RoadGraphWrapper.h
+ * ASD 2 - Labo 3
+ * Authors: Loris Gilliand, Mateo Tutic, Luc Wachter
+ * Created on 7. November 2018
  *
+ * Description: Classe permettant de manipuler un réseau routier
+ *              comme si c'était un graphe non orienté
+ *              Fournit : V(), forEachEdge(), forEachAdjacentEdge()
+ *              et forEachVertex()
  */
 
 #ifndef ROADGRAPHWRAPPER

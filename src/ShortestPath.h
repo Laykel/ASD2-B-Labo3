@@ -1,8 +1,11 @@
 /*
  * File:   ShortestPath.h
  * Author: Olivier Cuisenaire
- *
  * Created on 5. novembre 2014, 10:16
+ *
+ * Modified by: Loris Gilliand, Mateo Tutic, Luc Wachter
+ * Description: Classes permettant le calcul d'arbres de plus
+ *              courts chemins.
  */
 
 #ifndef ASD2_ShortestPath_h

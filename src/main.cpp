@@ -2,8 +2,12 @@
  * File:   main.cpp
  * ASD 2 - Labo 3
  * Author: Olivier Cuisenaire
- *
  * Created on 18. novembre 2014, 14:58
+ *
+ * Modified by: Loris Gilliand, Mateo Tutic, Luc Wachter
+ * Description: Point d'entrée permettant de tester les classes Wrappers
+ *              (RoadGraphWrapper et RoadDiGraphWrapper) et les classes de
+ *              ShortestPath.h
  */
 
 #include <cstdlib>
@@ -39,6 +43,7 @@ void PlusCourtChemin(const string& depart, const string& arrivee, RoadNetwork& r
    }
    // Afficher la ville d'arrivée
    cout << rn.cities.at(idxArrivee).name << endl;
+
    // Afficher la distance totale
    cout << "Distance totale : " << sp.DistanceTo(idxArrivee) << "km" << endl;
 }
@@ -52,12 +57,12 @@ void PlusRapideChemin(const string& depart, const string& arrivee, const string&
    RoadDiGraphWrapper<double> rdgw(rn, [](const RoadNetwork::Road& r) {
       double timeOnMotorway = (r.length * r.motorway.Value()) / 120;
       double timeOnNormalRoad = (r.length * (1 - r.motorway.Value())) / 70;
-      // Return time in minutes
+      // Retourner le temps en minutes
       return (timeOnMotorway + timeOnNormalRoad) * 60;
    });
 
    int idxDepart  = rn.cityIdx[depart];  // Calculer l'index de la ville de départ
-   int idxVia     = rn.cityIdx[via];     // Calculer l'index de la ville de départ
+   int idxVia     = rn.cityIdx[via];     // Calculer l'index de la ville intermédiaire
    int idxArrivee = rn.cityIdx[arrivee]; // Calculer l'index de la ville d'arrivée
 
    // Construire les plus courts chemins depuis idxDepart
@@ -75,6 +80,7 @@ void PlusRapideChemin(const string& depart, const string& arrivee, const string&
    }
    // Afficher la ville d'arrivée
    cout << rn.cities.at(idxArrivee).name << endl;
+
    // Afficher le temps total
    cout << "Temps total : "
    << spFromStart.DistanceTo(idxVia) + spFromVia.DistanceTo(idxArrivee)
