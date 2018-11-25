@@ -58,7 +58,6 @@ public:
    template <typename Func>
    void forEachEdge(Func f) const {
       for (const RoadNetwork::Road& r : rn.roads) {
-         // TODO Vérifier si on peut mieux faire !!
          std::pair<Edge, Edge> edges = roadToEdges(r);
          f(edges.first);   // Arc route A->B
          f(edges.second);  // Arc route B->A

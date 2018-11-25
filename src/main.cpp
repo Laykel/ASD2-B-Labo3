@@ -145,10 +145,10 @@ void testShortestPath(string filename) {
 }
 
 int main(int argc, const char * argv[]) {
-   /* testShortestPath("tinyEWD.txt"); */
-   /* testShortestPath("mediumEWD.txt"); */
-   /* testShortestPath("1000EWD.txt"); */
-   /* testShortestPath("10000EWD.txt"); */
+   testShortestPath("tinyEWD.txt");
+   testShortestPath("mediumEWD.txt");
+   testShortestPath("1000EWD.txt");
+   testShortestPath("10000EWD.txt");
 
    RoadNetwork rn("reseau.txt"); // Création du réseau routier depuis fichier
 
