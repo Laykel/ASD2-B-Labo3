@@ -48,7 +48,7 @@ public:
    }
 
    // Retourne la taille du réseau routier
-   int V() const {
+   long unsigned int V() const {
       return (int) rn.cities.size();
    }
 
@@ -80,8 +80,8 @@ public:
    // La fonction f doit prendre un seul argument de type int
    template <typename Func>
    void forEachVertex(Func f) const {
-      for (int i = 0; i < V(); i++) {
-         f(i);
+      for (size_t i = 0; i < V(); i++) {
+         f((int) i);
       }
    }
 

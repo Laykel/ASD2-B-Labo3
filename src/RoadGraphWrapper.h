@@ -37,7 +37,7 @@ public:
    }
 
    // Retourne la taille du réseau routier
-   int V() const {
+   long unsigned int V() const {
       return (int) rn.cities.size();
    }
 

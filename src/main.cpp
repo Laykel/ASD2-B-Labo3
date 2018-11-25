@@ -83,15 +83,32 @@ void PlusRapideChemin(const string& depart, const string& arrivee, const string&
 
    // Afficher le temps total
    cout << "Temps total : "
-   << spFromStart.DistanceTo(idxVia) + spFromVia.DistanceTo(idxArrivee)
-   << " minutes" << endl;
+        << spFromStart.DistanceTo(idxVia) + spFromVia.DistanceTo(idxArrivee)
+        << " minutes" << endl;
 }
 
 // Calcule et affiche le plus reseau a renover couvrant toutes les villes le moins
 // cher, en sachant que renover 1km d'autoroute coute 15 MF, et renover 1km de route normale
 // coute 7 MF.
 void ReseauLeMoinsCher(RoadNetwork &rn) {
-   /* A IMPLEMENTER */
+   // Voir le réseau de routes comme un graphe non orienté
+   // Spécifier la fonction de coût pour utiliser des MégaFrancs et non des km
+   RoadGraphWrapper<double> rgw(rn, [](const RoadNetwork::Road& r) {
+      double priceOfMotorway   = r.length * r.motorway.Value() * 15;
+      double priceOfNormalRoad = r.length * (1 - r.motorway.Value()) * 7;
+      // Retourner le prix en MF
+      return priceOfMotorway + priceOfNormalRoad;
+   });
+
+   // Construction de l'arbre recouvrant de poids minimum
+   vector<RoadGraphWrapper<double>::Edge> mst = MinimumSpanningTree<RoadGraphWrapper<double>>::EagerPrim(rgw);
+
+   // Parcours des arêtes de l'arbre, et affichage des tronçons
+   // et de leurs prix de rénovation
+   for (RoadGraphWrapper<double>::Edge edge : mst) {
+      cout << rn.cities.at(edge.Either()).name << " - " << rn.cities.at(edge.Other(edge.Either())).name
+           << " : " << edge.Weight() << "MF" << endl;
+   }
 }
 
 // compare les algorithmes Dijkstra et BellmanFord pour calculer les plus courts chemins au
@@ -138,18 +155,22 @@ int main(int argc, const char * argv[]) {
    cout << "1. Chemin le plus court entre Geneve et Emmen" << endl;
 
    PlusCourtChemin("Geneve", "Emmen", rn);
+   cout << endl;
 
    cout << "2. Chemin le plus court entre Lausanne et Bale" << endl;
 
    PlusCourtChemin("Lausanne", "Basel", rn);
+   cout << endl;
 
    cout << "3. Chemin le plus rapide entre Geneve et Emmen en passant par Yverdon" << endl;
 
    PlusRapideChemin("Geneve", "Emmen", "Yverdon-Les-Bains", rn);
+   cout << endl;
 
    cout << "4. Chemin le plus rapide entre Geneve et Emmen en passant par Vevey" << endl;
 
    PlusRapideChemin("Geneve", "Emmen", "Vevey", rn);
+   cout << endl;
 
    cout << "5. Quelles routes doivent etre renovees ? Quel sera le cout de la renovation de ces routes ?" << endl;
 
