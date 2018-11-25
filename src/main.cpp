@@ -102,13 +102,18 @@ void ReseauLeMoinsCher(RoadNetwork &rn) {
 
    // Construction de l'arbre recouvrant de poids minimum
    vector<RoadGraphWrapper<double>::Edge> mst = MinimumSpanningTree<RoadGraphWrapper<double>>::EagerPrim(rgw);
+   double totalPrice = 0;
 
    // Parcours des arêtes de l'arbre, et affichage des tronçons
    // et de leurs prix de rénovation
    for (RoadGraphWrapper<double>::Edge edge : mst) {
+      totalPrice += edge.Weight(); // Addition des prix
+
       cout << rn.cities.at(edge.Either()).name << " - " << rn.cities.at(edge.Other(edge.Either())).name
            << " : " << edge.Weight() << "MF" << endl;
    }
+   // Affichage du coût total de la rénovation
+   cout << endl << "Cout total : " << totalPrice << "MF" << endl;
 }
 
 // compare les algorithmes Dijkstra et BellmanFord pour calculer les plus courts chemins au
